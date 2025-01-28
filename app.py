@@ -2,23 +2,21 @@ import streamlit as st
 import requests
 import os
 import json
+from dotenv import load_dotenv
 
-# Load environment variables - modified for Streamlit Cloud compatibility
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    pass  # Skip if python-dotenv isn't installed
+
+load_dotenv()
 
 st.title("DeepSeek AI Assistant")
 st.markdown("🚀 A streaming AI assistant powered by DeepSeek")
 
 def generate_response(messages):
-    # Get API key from environment variables (Streamlit secrets)
+    """
+    Generator function to stream responses from DeepSeek API
+    """
     api_key = os.getenv("DEEPSEEK_API_KEY")
-    
     if not api_key:
-        yield "❌ API key missing. Please set DEEPSEEK_API_KEY in environment variables."
+        yield "❌ API key missing. Please set the environment variable `DEEPSEEK_API_KEY`."
         return
 
     headers = {
